@@ -12,15 +12,16 @@ class UploadsHandler {
     try {
       const { data } = request.payload;
       this._validator.validateImageHeaders(data.hapi.headers);
-
-      const fileLocation = await this._service.writeFile(data, data.hapi);
+      // Menyimpan di local storage
+      const filename = await this._service.writeFile(data, data.hapi);
+      // const fileLocation = await this._service.writeFile(data, data.hapi);
 
       const response = h.response({
         status: 'success',
         data: {
           // Menyimpan di local storage
-          // fileLocation: `http://${process.env.HOST}:${process.env.PORT}/upload/images/${filename}`,
-          fileLocation,
+          fileLocation: `http://${process.env.HOST}:${process.env.PORT}/upload/images/${filename}`,
+          // fileLocation,
         },
       });
       response.code(201);
